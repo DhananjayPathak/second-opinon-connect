@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Second Opinion Connect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--primary:#0C7A5D;--primary-light:#E1F5EE;--primary-dark:#085041;
+--accent:#1D9E75;--accent-2:#378ADD;
+--bg:#F8FAF9;--bg2:#FFFFFF;--bg3:#EFF5F3;
+--text:#1A2B24;--text2:#4A6055;--text3:#7A9089;
+--border:#D4E5DE;--border2:#B8D4CB;
+--blue:#185FA5;--blue-light:#E6F1FB;
+--radius:12px;--radius-sm:8px;--radius-lg:16px;
+--shadow:0 1px 3px rgba(12,122,93,0.08),0 4px 16px rgba(12,122,93,0.06);
+--shadow-md:0 4px 24px rgba(12,122,93,0.12);
+font-family:'DM Sans',sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+.serif{font-family:'DM Serif Display',serif}
+button{cursor:pointer;font-family:'DM Sans',sans-serif;border:none;outline:none;transition:all .2s}
+input,select,textarea{font-family:'DM Sans',sans-serif;outline:none}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{width:36px;height:36px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.logo-icon svg{width:20px;height:20px;fill:white}
+.logo-name{font-size:16px;font-weight:600;color:var(--text);letter-spacing:-0.3px}
+.logo-name span{color:var(--primary)}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{color:var(--text2);font-size:14px;font-weight:500;text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--primary)}
+.nav-actions{display:flex;gap:12px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:500;transition:all .2s;cursor:pointer}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text2)}
+.btn-ghost:hover{background:var(--bg3);border-color:var(--border2)}
+.btn-primary{background:var(--primary);color:white;border:1px solid var(--primary)}
+.btn-primary:hover{background:var(--primary-dark);transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.btn-outline{background:white;border:1.5px solid var(--primary);color:var(--primary)}
+.btn-outline:hover{background:var(--primary-light)}
+.btn-lg{padding:14px 28px;font-size:15px;border-radius:var(--radius)}
+.btn-xl{padding:16px 32px;font-size:16px;border-radius:var(--radius)}
+
+/* PAGES */
+.page{display:none;min-height:calc(100vh - 64px)}
+.page.active{display:block}
+
+/* LANDING */
+.hero{padding:6rem 2rem 5rem;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--primary-light);color:var(--primary-dark);padding:6px 14px;border-radius:100px;font-size:13px;font-weight:500;margin-bottom:1.5rem}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%}
+.hero h1{font-size:3.2rem;line-height:1.15;letter-spacing:-1.5px;color:var(--text);margin-bottom:1.5rem}
+.hero p{font-size:1.1rem;color:var(--text2);line-height:1.7;margin-bottom:2rem;max-width:480px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.hero-visual{position:relative}
+.hero-card{background:white;border-radius:var(--radius-lg);padding:1.5rem;box-shadow:var(--shadow-md);border:1px solid var(--border)}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.stat-pill{background:var(--bg3);border-radius:var(--radius-sm);padding:14px;text-align:center}
+.stat-num{font-size:1.8rem;font-weight:600;color:var(--primary);letter-spacing:-1px}
+.stat-label{font-size:12px;color:var(--text2);margin-top:2px}
+.trust-bar{background:white;padding:1.5rem 2rem;display:flex;align-items:center;justify-content:center;gap:3rem;border-top:1px solid var(--border);border-bottom:1px solid var(--border);flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:8px;color:var(--text2);font-size:14px;font-weight:500}
+.trust-icon{width:28px;height:28px;background:var(--primary-light);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--primary)}
+
+.section{padding:5rem 2rem;max-width:1200px;margin:0 auto}
+.section-label{font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
+.section-title{font-size:2.2rem;letter-spacing:-0.8px;color:var(--text);margin-bottom:1rem}
+.section-sub{font-size:1rem;color:var(--text2);line-height:1.7;max-width:540px}
+
+/* HOW IT WORKS */
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3rem}
+.step-card{background:white;border-radius:var(--radius);padding:1.5rem;border:1px solid var(--border);position:relative;overflow:hidden}
+.step-card::before{content:attr(data-num);position:absolute;top:-10px;right:12px;font-size:5rem;font-weight:700;color:var(--primary-light);font-family:'DM Serif Display',serif;line-height:1}
+.step-num{width:36px;height:36px;background:var(--primary);color:white;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;margin-bottom:1rem}
+.step-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:.5rem}
+.step-desc{font-size:13px;color:var(--text2);line-height:1.6}
+
+/* DOCTORS */
+.doctors-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2rem}
+.doctor-card{background:white;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;transition:all .25s;cursor:pointer}
+.doctor-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);border-color:var(--border2)}
+.doctor-header{padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;border-bottom:1px solid var(--border)}
+.doctor-avatar{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:600;color:white;flex-shrink:0}
+.doctor-name{font-size:16px;font-weight:600;color:var(--text);margin-bottom:4px}
+.doctor-spec{font-size:13px;color:var(--accent);font-weight:500;margin-bottom:4px}
+.doctor-hospital{font-size:12px;color:var(--text3)}
+.doctor-body{padding:1.2rem 1.5rem}
+.doctor-meta{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+.meta-chip{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text2)}
+.stars{color:#f59e0b;font-size:14px}
+.price-row{display:flex;align-items:center;justify-content:space-between}
+.price{font-size:18px;font-weight:600;color:var(--text)}
+.price span{font-size:12px;color:var(--text3);font-weight:400}
+.avail-badge{background:var(--primary-light);color:var(--primary-dark);font-size:11px;padding:3px 10px;border-radius:100px;font-weight:500}
+
+/* TESTIMONIALS */
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2rem}
+.testimonial-card{background:white;border-radius:var(--radius);padding:1.5rem;border:1px solid var(--border)}
+.testimonial-text{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:1rem;font-style:italic}
+.testimonial-author{display:flex;align-items:center;gap:10px}
+.author-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:white}
+.author-name{font-size:13px;font-weight:600;color:var(--text)}
+.author-detail{font-size:11px;color:var(--text3)}
+
+/* FAQ */
+.faq-list{margin-top:2rem;display:flex;flex-direction:column;gap:8px}
+.faq-item{background:white;border-radius:var(--radius-sm);border:1px solid var(--border);overflow:hidden}
+.faq-q{padding:1.1rem 1.5rem;font-size:15px;font-weight:500;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none}
+.faq-q:hover{background:var(--bg3)}
+.faq-q .arrow{transition:transform .3s;color:var(--text3);font-size:18px}
+.faq-q.open .arrow{transform:rotate(180deg)}
+.faq-a{padding:0 1.5rem;max-height:0;overflow:hidden;transition:all .3s;font-size:14px;color:var(--text2);line-height:1.7}
+.faq-a.open{padding:0 1.5rem 1.1rem;max-height:200px}
+
+/* FOOTER */
+footer{background:var(--text);color:rgba(255,255,255,0.7);padding:4rem 2rem 2rem;margin-top:5rem}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.footer-brand p{font-size:13px;line-height:1.7;margin-top:.8rem}
+.footer-col h4{font-size:13px;font-weight:600;color:white;margin-bottom:1rem;text-transform:uppercase;letter-spacing:.5px}
+.footer-col a{display:block;font-size:13px;color:rgba(255,255,255,0.6);text-decoration:none;margin-bottom:.5rem;transition:color .2s}
+.footer-col a:hover{color:white}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;font-size:12px}
+
+/* DASHBOARD */
+.dash-layout{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 64px)}
+.sidebar{background:white;border-right:1px solid var(--border);padding:1.5rem 0}
+.sidebar-section{padding:0 1rem;margin-bottom:.5rem}
+.sidebar-label{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text3);padding:.5rem 1rem;margin-bottom:.3rem}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:.65rem 1rem;border-radius:var(--radius-sm);font-size:14px;color:var(--text2);cursor:pointer;transition:all .2s;text-decoration:none;font-weight:500}
+.sidebar-item:hover{background:var(--bg3);color:var(--primary)}
+.sidebar-item.active{background:var(--primary-light);color:var(--primary-dark)}
+.sidebar-item svg{width:18px;height:18px;flex-shrink:0}
+.sidebar-badge{margin-left:auto;background:var(--primary);color:white;font-size:10px;padding:1px 7px;border-radius:100px;font-weight:600}
+.dash-main{padding:2rem;background:var(--bg)}
+.dash-header{margin-bottom:2rem}
+.dash-header h1{font-size:1.6rem;font-weight:600;letter-spacing:-0.5px;color:var(--text)}
+.dash-header p{color:var(--text2);font-size:14px;margin-top:4px}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+.stat-card{background:white;border-radius:var(--radius);padding:1.25rem 1.5rem;border:1px solid var(--border)}
+.stat-card-num{font-size:2rem;font-weight:600;color:var(--text);letter-spacing:-1px}
+.stat-card-label{font-size:13px;color:var(--text2);margin-top:4px}
+.stat-card-delta{font-size:12px;color:var(--accent);margin-top:8px;font-weight:500}
+.cards-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.dash-card{background:white;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden}
+.dash-card-header{padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.dash-card-title{font-size:15px;font-weight:600;color:var(--text)}
+.dash-card-body{padding:1rem 1.5rem}
+.appt-item{display:flex;gap:1rem;padding:.85rem 0;border-bottom:1px solid var(--border);align-items:center}
+.appt-item:last-child{border-bottom:none}
+.appt-dot{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:600;color:white}
+.appt-info{flex:1}
+.appt-name{font-size:14px;font-weight:500;color:var(--text)}
+.appt-meta{font-size:12px;color:var(--text3);margin-top:2px}
+.appt-badge{font-size:11px;padding:3px 10px;border-radius:100px;font-weight:500;white-space:nowrap}
+.badge-green{background:var(--primary-light);color:var(--primary-dark)}
+.badge-blue{background:var(--blue-light);color:var(--blue)}
+.badge-amber{background:#fef3c7;color:#92400e}
+.badge-red{background:#fef2f2;color:#991b1b}
+
+/* FLOW */
+.flow-container{max-width:800px;margin:0 auto;padding:3rem 2rem}
+.flow-progress{display:flex;align-items:center;gap:8px;margin-bottom:3rem;overflow-x:auto;padding-bottom:4px}
+.flow-step{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.flow-step-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;border:2px solid var(--border);color:var(--text3);transition:all .3s;flex-shrink:0}
+.flow-step.done .flow-step-dot{background:var(--primary);border-color:var(--primary);color:white}
+.flow-step.active .flow-step-dot{background:white;border-color:var(--primary);color:var(--primary)}
+.flow-step-label{font-size:12px;color:var(--text3);font-weight:500;white-space:nowrap}
+.flow-step.active .flow-step-label{color:var(--primary)}
+.flow-step.done .flow-step-label{color:var(--text2)}
+.flow-connector{height:2px;background:var(--border);flex:1;min-width:20px;flex-shrink:0}
+.flow-connector.done{background:var(--primary)}
+.flow-card{background:white;border-radius:var(--radius-lg);border:1px solid var(--border);padding:2rem;box-shadow:var(--shadow)}
+.flow-title{font-size:1.4rem;font-weight:600;letter-spacing:-0.5px;color:var(--text);margin-bottom:.5rem}
+.flow-sub{font-size:14px;color:var(--text2);margin-bottom:2rem;line-height:1.6}
+.category-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.category-btn{background:var(--bg3);border:2px solid transparent;border-radius:var(--radius);padding:1.2rem 1rem;text-align:center;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:8px}
+.category-btn:hover{background:var(--primary-light);border-color:var(--border2)}
+.category-btn.selected{background:var(--primary-light);border-color:var(--primary)}
+.category-icon{font-size:28px}
+.category-label{font-size:13px;font-weight:500;color:var(--text2)}
+.category-btn.selected .category-label{color:var(--primary-dark)}
+textarea.flow-input{width:100%;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:1rem;font-size:14px;color:var(--text);line-height:1.6;resize:vertical;min-height:120px;transition:border-color .2s;background:white}
+textarea.flow-input:focus{border-color:var(--primary)}
+.upload-zone{border:2px dashed var(--border2);border-radius:var(--radius);padding:2.5rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg3)}
+.upload-zone:hover{border-color:var(--primary);background:var(--primary-light)}
+.upload-icon{font-size:2.5rem;margin-bottom:.8rem}
+.upload-text{font-size:14px;color:var(--text2);margin-bottom:.4rem}
+.upload-hint{font-size:12px;color:var(--text3)}
+.upload-types{display:flex;gap:8px;flex-wrap:wrap;margin-top:1rem;justify-content:center}
+.type-tag{background:white;border:1px solid var(--border);border-radius:6px;padding:3px 10px;font-size:11px;color:var(--text2)}
+.consult-options{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.consult-opt{border:2px solid var(--border);border-radius:var(--radius);padding:1.5rem;cursor:pointer;transition:all .2s;background:white}
+.consult-opt:hover{border-color:var(--border2);background:var(--bg3)}
+.consult-opt.selected{border-color:var(--primary);background:var(--primary-light)}
+.consult-opt-icon{font-size:2rem;margin-bottom:.8rem}
+.consult-opt-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px}
+.consult-opt-desc{font-size:12px;color:var(--text2);line-height:1.5}
+.flow-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem;padding-top:2rem;border-top:1px solid var(--border)}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:1.5rem}
+.cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:13px;cursor:pointer;transition:all .2s;font-weight:500}
+.cal-day.header{font-size:11px;color:var(--text3);font-weight:600;text-transform:uppercase;cursor:default}
+.cal-day.empty{cursor:default}
+.cal-day.available:hover{background:var(--primary-light);color:var(--primary-dark)}
+.cal-day.selected{background:var(--primary);color:white}
+.cal-day.disabled{color:var(--border);cursor:not-allowed}
+.slots-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:1rem}
+.slot-btn{padding:8px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;border:1.5px solid var(--border);background:white;color:var(--text2)}
+.slot-btn:hover{border-color:var(--primary);color:var(--primary)}
+.slot-btn.selected{background:var(--primary);border-color:var(--primary);color:white}
+.slot-btn.full{background:var(--bg3);color:var(--border);cursor:not-allowed;border-color:var(--border)}
+.confirm-box{background:var(--bg3);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.5rem}
+.confirm-row{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--border);font-size:14px}
+.confirm-row:last-child{border-bottom:none;font-weight:600;font-size:15px;color:var(--text)}
+.confirm-row span:first-child{color:var(--text2)}
+.success-screen{text-align:center;padding:2rem 0}
+.success-icon{width:80px;height:80px;background:var(--primary-light);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:2.5rem}
+.success-title{font-size:1.5rem;font-weight:600;color:var(--text);margin-bottom:.5rem}
+.success-sub{font-size:14px;color:var(--text2);margin-bottom:2rem;line-height:1.7}
+.booking-ref{background:var(--bg3);border-radius:var(--radius-sm);padding:.8rem 1.5rem;display:inline-block;font-family:monospace;font-size:15px;color:var(--primary-dark);font-weight:600;letter-spacing:1px}
+
+/* DOCTOR PROFILE */
+.profile-hero{background:white;border-bottom:1px solid var(--border);padding:3rem 2rem}
+.profile-inner{max-width:1100px;margin:0 auto;display:flex;gap:2rem;align-items:flex-start}
+.profile-avatar{width:100px;height:100px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:600;color:white;flex-shrink:0}
+.profile-info h1{font-size:1.8rem;font-weight:600;letter-spacing:-0.5px;color:var(--text);margin-bottom:4px}
+.profile-spec{font-size:15px;color:var(--accent);font-weight:500;margin-bottom:.5rem}
+.profile-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:.8rem}
+.profile-badge{display:flex;align-items:center;gap:5px;font-size:12px;padding:4px 12px;border-radius:100px;border:1px solid var(--border);color:var(--text2)}
+.profile-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);max-width:1100px;margin:0 auto;padding:0 2rem}
+.tab{padding:.8rem 1.5rem;font-size:14px;font-weight:500;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;margin-bottom:-1px}
+.tab.active{color:var(--primary);border-bottom-color:var(--primary)}
+.tab:hover{color:var(--primary)}
+
+/* SEARCH */
+.search-hero{background:var(--text);padding:3rem 2rem;text-align:center}
+.search-hero h1{font-size:2rem;color:white;margin-bottom:1rem;letter-spacing:-0.5px}
+.search-bar-wrap{max-width:700px;margin:0 auto;display:flex;gap:8px}
+.search-bar{flex:1;background:white;border-radius:var(--radius-sm);padding:12px 16px;font-size:15px;border:none;color:var(--text)}
+.filter-row{max-width:1100px;margin:0 auto;padding:1.5rem 2rem;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.filter-select{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:8px 14px;font-size:13px;color:var(--text2);background:white;cursor:pointer}
+.filter-select:focus{border-color:var(--primary);outline:none}
+.active-filter{display:inline-flex;align-items:center;gap:6px;background:var(--primary-light);color:var(--primary-dark);padding:5px 12px;border-radius:100px;font-size:12px;font-weight:500}
+.active-filter span{cursor:pointer;opacity:0.7}
+.search-results{max-width:1100px;margin:0 auto;padding:0 2rem 3rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+
+/* AI MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;display:flex;align-items:flex-end;justify-content:flex-end;padding:1rem}
+.modal-overlay.hidden{display:none}
+.ai-panel{background:white;border-radius:var(--radius-lg);width:380px;height:560px;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.2);overflow:hidden}
+.ai-header{background:var(--primary);padding:1rem 1.2rem;display:flex;align-items:center;gap:10px;color:white}
+.ai-header-text{font-size:14px;font-weight:600}
+.ai-header-sub{font-size:11px;opacity:.8}
+.ai-messages{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:12px}
+.ai-msg{max-width:85%;padding:.7rem 1rem;border-radius:12px;font-size:13px;line-height:1.6}
+.ai-msg.bot{background:var(--bg3);color:var(--text);border-bottom-left-radius:4px;align-self:flex-start}
+.ai-msg.user{background:var(--primary);color:white;border-bottom-right-radius:4px;align-self:flex-end}
+.ai-suggestions{padding:.5rem 1rem;display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--border)}
+.ai-sugg{background:var(--bg3);border:1px solid var(--border);border-radius:100px;padding:5px 12px;font-size:12px;color:var(--text2);cursor:pointer;transition:all .2s;white-space:nowrap}
+.ai-sugg:hover{background:var(--primary-light);color:var(--primary);border-color:var(--primary)}
+.ai-input-row{padding:1rem;border-top:1px solid var(--border);display:flex;gap:8px}
+.ai-input{flex:1;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:8px 12px;font-size:13px;color:var(--text)}
+.ai-input:focus{border-color:var(--primary)}
+.ai-send{width:36px;height:36px;background:var(--primary);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;color:white;flex-shrink:0}
+
+/* VIDEO */
+.video-room{background:#0a1628;min-height:calc(100vh - 64px);display:flex;flex-direction:column}
+.video-main{flex:1;display:grid;grid-template-columns:1fr 320px;position:relative}
+.video-stage{position:relative;display:flex;align-items:center;justify-content:center;background:#0d1f3c;overflow:hidden}
+.remote-video{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0d1f3c,#1a3a5c)}
+.remote-placeholder{text-align:center;color:rgba(255,255,255,.7)}
+.remote-avatar{width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 1rem;color:white}
+.remote-name{font-size:1.1rem;color:white;font-weight:500}
+.remote-status{font-size:13px;opacity:.7;margin-top:.3rem}
+.self-video{position:absolute;bottom:1rem;right:1rem;width:160px;height:120px;background:rgba(0,0,0,.5);border-radius:12px;border:2px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.self-placeholder{width:48px;height:48px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:18px;font-weight:600}
+.video-controls{background:rgba(0,0,0,.4);backdrop-filter:blur(10px);padding:1.2rem;display:flex;align-items:center;justify-content:center;gap:1rem}
+.vid-btn{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;font-size:18px;transition:all .2s}
+.vid-btn-normal{background:rgba(255,255,255,.1);color:white}
+.vid-btn-normal:hover{background:rgba(255,255,255,.2)}
+.vid-btn-end{background:#ef4444;color:white}
+.vid-btn-end:hover{background:#dc2626}
+.vid-btn-active{background:rgba(255,255,255,.2);color:white}
+.chat-panel{background:#111827;display:flex;flex-direction:column;border-left:1px solid rgba(255,255,255,.1)}
+.chat-header{padding:1.2rem;border-bottom:1px solid rgba(255,255,255,.1);color:white;font-size:14px;font-weight:600}
+.chat-msgs{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:10px}
+.chat-msg{font-size:12px;line-height:1.6}
+.chat-msg-sender{font-size:10px;font-weight:600;margin-bottom:3px;opacity:.7}
+.chat-msg-text{background:rgba(255,255,255,.08);border-radius:8px;padding:6px 10px;color:rgba(255,255,255,.9)}
+.chat-msg.own .chat-msg-text{background:rgba(29,158,117,.3);color:rgba(255,255,255,.95)}
+.chat-input-row{padding:.8rem;border-top:1px solid rgba(255,255,255,.1);display:flex;gap:8px}
+.chat-input{flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:8px 12px;font-size:12px;color:white}
+.chat-input::placeholder{color:rgba(255,255,255,.3)}
+.chat-send{width:32px;height:32px;background:var(--primary);border-radius:8px;border:none;color:white;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+
+/* ADMIN */
+.admin-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-bottom:2rem}
+.admin-stat{background:white;border-radius:var(--radius-sm);padding:1.2rem;border:1px solid var(--border);text-align:center}
+.admin-table{background:white;border-radius:var(--radius);border:1px solid var(--border);overflow:hidden}
+.admin-table table{width:100%;border-collapse:collapse}
+.admin-table th{background:var(--bg3);padding:.8rem 1rem;font-size:12px;font-weight:600;color:var(--text2);text-align:left;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+.admin-table td{padding:.85rem 1rem;font-size:13px;color:var(--text2);border-bottom:1px solid var(--border)}
+.admin-table tr:last-child td{border-bottom:none}
+.admin-table tr:hover td{background:var(--bg3)}
+.action-link{color:var(--primary);font-weight:500;cursor:pointer;font-size:12px}
+.action-link.red{color:#ef4444}
+
+/* UTILS */
+.flex{display:flex}.gap-8{gap:8px}.gap-12{gap:12px}.items-center{align-items:center}.justify-between{justify-content:space-between}
+.mt-4{margin-top:1rem}.mt-8{margin-top:2rem}.mb-4{margin-bottom:1rem}.mb-2{margin-bottom:.5rem}
+.text-sm{font-size:14px}.text-xs{font-size:12px}.text-muted{color:var(--text2)}.text-primary{color:var(--primary)}
+.font-600{font-weight:600}.font-500{font-weight:500}
+.divider{height:1px;background:var(--border);margin:1rem 0}
+.tag{display:inline-flex;align-items:center;background:var(--bg3);color:var(--text2);padding:3px 10px;border-radius:6px;font-size:12px;font-weight:500;border:1px solid var(--border)}
+.verified{color:#22c55e;font-size:12px;font-weight:600;display:flex;align-items:center;gap:4px}
+input[type=text],input[type=email],input[type=password],select{border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;font-size:14px;color:var(--text);width:100%;transition:border-color .2s;background:white}
+input:focus,select:focus{border-color:var(--primary);outline:none}
+.form-group{margin-bottom:1.25rem}
+.form-label{display:block;font-size:13px;font-weight:500;color:var(--text);margin-bottom:.5rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+
+.fab{position:fixed;bottom:2rem;right:2rem;width:54px;height:54px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow-md);z-index:50;transition:transform .2s;color:white;font-size:22px;border:none}
+.fab:hover{transform:scale(1.08)}
+
+.notification-dot{width:8px;height:8px;background:#ef4444;border-radius:50%;display:inline-block;margin-left:4px}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;gap:2rem}
+  .steps-grid{grid-template-columns:1fr 1fr}
+  .doctors-grid{grid-template-columns:1fr 1fr}
+  .testimonials-grid{grid-template-columns:1fr}
+  .dash-layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .cards-row{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr 1fr}
+  .category-grid{grid-template-columns:repeat(3,1fr)}
+  .search-results{grid-template-columns:1fr}
+  .video-main{grid-template-columns:1fr}
+  .chat-panel{display:none}
+  .admin-stats{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo" onclick="showPage('landing')" style="cursor:pointer">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M12 2C8.1 2 5 5.1 5 9c0 4.9 7 13 7 13s7-8.1 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5S10.6 6.5 12 6.5s2.5 1.1 2.5 2.5S13.4 11.5 12 11.5z"/></svg>
+    </div>
+    <span class="logo-name">Second<span>Opinion</span> Connect</span>
+  </div>
+  <div class="nav-links">
+    <a href="#" onclick="showPage('search');return false">Find Doctors</a>
+    <a href="#" onclick="showPage('flow');return false">Get Opinion</a>
+    <a href="#" onclick="showPage('admin');return false">For Clinics</a>
+    <a href="#">How it Works</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn btn-ghost" onclick="showPage('dashboard')">Patient Login</button>
+    <button class="btn btn-primary" onclick="showPage('flow')">Get Second Opinion</button>
+  </div>
+</nav>
+
+<!-- ============ LANDING PAGE ============ -->
+<div id="page-landing" class="page active">
+
+<section>
+  <div class="hero">
+    <div>
+      <div class="hero-badge">Trusted by 50,000+ patients across India</div>
+      <h1 class="serif">Get a <em>Second Opinion</em> from the Best Specialists</h1>
+      <p>Before surgery, a major diagnosis, or a complex treatment plan — get a verified expert review. Upload your reports. Connect with specialists. Make confident decisions.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary btn-lg" onclick="showPage('flow')">Get Second Opinion</button>
+        <button class="btn btn-outline btn-lg" onclick="showPage('search')">Find Specialists</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem">
+          <div style="width:48px;height:48px;background:#0C7A5D;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px">👨‍⚕️</div>
+          <div>
+            <div style="font-size:14px;font-weight:600;color:var(--text)">Your case has been reviewed</div>
+            <div style="font-size:12px;color:var(--text3)">Dr. Priya Sharma, Oncologist</div>
+          </div>
+          <div class="badge-green avail-badge" style="margin-left:auto">✓ Ready</div>
+        </div>
+        <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:1rem;font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:1rem">
+          Based on your MRI scan and biopsy report, I recommend a second biopsy at a minimum 6-week interval. Treatment delay is not advised…
+        </div>
+        <div class="hero-stats">
+          <div class="stat-pill"><div class="stat-num">2,400+</div><div class="stat-label">Verified Specialists</div></div>
+          <div class="stat-pill"><div class="stat-num">98%</div><div class="stat-label">Patient Satisfaction</div></div>
+          <div class="stat-pill"><div class="stat-num">24h</div><div class="stat-label">Avg. Response Time</div></div>
+          <div class="stat-pill"><div class="stat-num">50K+</div><div class="stat-label">Cases Reviewed</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust-bar">
+  <div class="trust-item"><div class="trust-icon">🔒</div>HIPAA-Inspired Security</div>
+  <div class="trust-item"><div class="trust-icon">✅</div>Verified Doctors Only</div>
+  <div class="trust-item"><div class="trust-icon">📋</div>Structured Case Reviews</div>
+  <div class="trust-item"><div class="trust-icon">💬</div>Multilingual Support</div>
+  <div class="trust-item"><div class="trust-icon">⚡</div>24h Priority Opinions</div>
+</div>
+
+<div class="section">
+  <div class="section-label">How it Works</div>
+  <div class="section-title serif">From concern to clarity in 4 steps</div>
+  <div class="steps-grid">
+    <div class="step-card" data-num="1"><div class="step-num">1</div><div class="step-title">Describe Your Case</div><div class="step-desc">Upload reports, scans, prescriptions and describe your diagnosis in our guided AI-assisted intake.</div></div>
+    <div class="step-card" data-num="2"><div class="step-num">2</div><div class="step-title">Match with Specialist</div><div class="step-desc">Our system matches you with the most relevant verified specialist based on your case profile.</div></div>
+    <div class="step-card" data-num="3"><div class="step-num">3</div><div class="step-title">Consult Online or In-Person</div><div class="step-desc">Video call, audio, chat, or visit the specialist's clinic — whatever works best for you.</div></div>
+    <div class="step-card" data-num="4"><div class="step-num">4</div><div class="step-title">Get Your Written Opinion</div><div class="step-desc">Receive a detailed written second opinion with recommendations, next steps, and follow-up plan.</div></div>
+  </div>
+</div>
+
+<div style="background:white;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:5rem 2rem">
+  <div class="section" style="padding:0;margin-bottom:0;padding-bottom:0">
+    <div class="section-label">Featured Specialists</div>
+    <div class="section-title serif">Meet our top doctors</div>
+    <div class="section-sub">Every specialist on our platform is credential-verified, license-checked, and peer-reviewed.</div>
+    <div class="doctors-grid" id="featured-doctors"></div>
+    <div style="text-align:center;margin-top:2rem"><button class="btn btn-outline btn-lg" onclick="showPage('search')">Browse All 2,400+ Specialists →</button></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">Patient Stories</div>
+  <div class="section-title serif">Lives changed by a second opinion</div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card"><div class="testimonial-text">"My oncologist recommended immediate surgery, but the second opinion from SecondOpinion Connect showed an alternative treatment option that avoided surgery completely. I am so grateful."</div><div class="testimonial-author"><div class="author-avatar" style="background:#0C7A5D">R</div><div><div class="author-name">Ramesh K.</div><div class="author-detail">Cancer survivor · Mumbai</div></div></div></div>
+    <div class="testimonial-card"><div class="testimonial-text">"Within 18 hours of uploading my child's MRI, I had a comprehensive written opinion from a top pediatric neurologist. The turnaround was remarkable and gave us total peace of mind."</div><div class="testimonial-author"><div class="author-avatar" style="background:#185FA5">A</div><div><div class="author-name">Anjali M.</div><div class="author-detail">Parent · Bengaluru</div></div></div></div>
+    <div class="testimonial-card"><div class="testimonial-text">"I was told I needed a spinal fusion. The second opinion confirmed I only needed physiotherapy and pain management. This platform literally saved me from an unnecessary major surgery."</div><div class="testimonial-author"><div class="author-avatar" style="background:#7c3aed">S</div><div><div class="author-name">Suresh P.</div><div class="author-detail">Software engineer · Pune</div></div></div></div>
+  </div>
+</div>
+
+<div style="background:var(--text);padding:5rem 2rem;text-align:center">
+  <div style="max-width:600px;margin:0 auto">
+    <div style="font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:1rem">For Medical Professionals</div>
+    <h2 class="serif" style="font-size:2rem;color:white;margin-bottom:1rem">Are you a specialist?</h2>
+    <p style="color:rgba(255,255,255,.7);font-size:15px;line-height:1.7;margin-bottom:2rem">Join our network of 2,400+ verified specialists. Review cases on your schedule, build your digital reputation, and help patients across India get the expert opinion they deserve.</p>
+    <button class="btn btn-primary btn-lg" onclick="showPage('doctor-onboard')">Apply as a Doctor</button>
+  </div>
+</div>
+
+<div class="section" style="max-width:800px">
+  <div class="section-label">FAQ</div>
+  <div class="section-title serif">Common questions</div>
+  <div class="faq-list" id="faq-list"></div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div style="font-size:16px;font-weight:600;color:white">SecondOpinion Connect</div>
+        <p>A trusted digital platform for verified medical second opinions. Connecting patients with India's top specialists, securely and compassionately.</p>
+      </div>
+      <div class="footer-col"><h4>Platform</h4><a href="#">Find Specialists</a><a href="#">Get Second Opinion</a><a href="#">For Hospitals</a><a href="#">Pricing</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="#">About Us</a><a href="#">Blog</a><a href="#">Careers</a><a href="#">Press</a></div>
+      <div class="footer-col"><h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms of Use</a><a href="#">HIPAA Notice</a><a href="#">Data Security</a></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 SecondOpinion Connect. All rights reserved.</span><span>🔒 256-bit encrypted · Data stored in India</span></div>
+  </div>
+</footer>
+</div>
+
+<!-- ============ PATIENT DASHBOARD ============ -->
+<div id="page-dashboard" class="page">
+  <div class="dash-layout">
+    <aside class="sidebar">
+      <div style="padding:0 1rem 1.5rem">
+        <div style="display:flex;align-items:center;gap:10px;padding:1rem;background:var(--primary-light);border-radius:var(--radius)">
+          <div style="width:40px;height:40px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;color:white">A</div>
+          <div><div style="font-size:14px;font-weight:600;color:var(--text)">Arjun Sharma</div><div style="font-size:11px;color:var(--text3)">Patient Account</div></div>
+        </div>
+      </div>
+      <div class="sidebar-label">Overview</div>
+      <a class="sidebar-item active" onclick="switchTab('overview')">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </a>
+      <a class="sidebar-item" onclick="switchTab('appointments')">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
+        Appointments
+      </a>
+      <a class="sidebar-item" onclick="switchTab('opinions')">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        My Opinions <div class="sidebar-badge">3</div>
+      </a>
+      <div class="sidebar-label" style="margin-top:1rem">Health Records</div>
+      <a class="sidebar-item">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+        Reports &amp; Scans
+      </a>
+      <a class="sidebar-item">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+        Prescriptions
+      </a>
+      <div class="sidebar-label" style="margin-top:1rem">Account</div>
+      <a class="sidebar-item">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+        Saved Doctors
+      </a>
+      <a class="sidebar-item" onclick="showPage('landing')">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+        Sign Out
+      </a>
+    </aside>
+    <main class="dash-main">
+      <div class="dash-header">
+        <h1>Good morning, Arjun 👋</h1>
+        <p>You have 2 upcoming consultations this week and 1 pending opinion.</p>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-card-num">3</div><div class="stat-card-label">Second Opinions</div><div class="stat-card-delta">↑ 2 this month</div></div>
+        <div class="stat-card"><div class="stat-card-num">2</div><div class="stat-card-label">Upcoming Consults</div><div class="stat-card-delta">Next: Tomorrow</div></div>
+        <div class="stat-card"><div class="stat-card-num">7</div><div class="stat-card-label">Reports Uploaded</div><div class="stat-card-delta">Last: 2 days ago</div></div>
+        <div class="stat-card"><div class="stat-card-num">4.9</div><div class="stat-card-label">Doctor Rating Avg</div><div class="stat-card-delta">⭐ Excellent care</div></div>
+      </div>
+      <div class="cards-row">
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <div class="dash-card-title">Upcoming Consultations</div>
+            <button class="btn btn-primary" style="padding:6px 14px;font-size:13px" onclick="showPage('flow')">+ Book New</button>
+          </div>
+          <div class="dash-card-body">
+            <div class="appt-item">
+              <div class="appt-dot" style="background:#0C7A5D">PS</div>
+              <div class="appt-info"><div class="appt-name">Dr. Priya Sharma</div><div class="appt-meta">Oncology · Video Call · Tomorrow 10:30 AM</div></div>
+              <div><div class="appt-badge badge-green">Confirmed</div><button class="btn btn-primary" style="padding:4px 10px;font-size:11px;margin-top:6px" onclick="showPage('video')">Join</button></div>
+            </div>
+            <div class="appt-item">
+              <div class="appt-dot" style="background:#185FA5">RK</div>
+              <div class="appt-info"><div class="appt-name">Dr. Rajesh Kumar</div><div class="appt-meta">Cardiology · In-Person · Dec 28 · 3:00 PM</div></div>
+              <div class="appt-badge badge-blue">Scheduled</div>
+            </div>
+            <div class="appt-item">
+              <div class="appt-dot" style="background:#7c3aed">AM</div>
+              <div class="appt-info"><div class="appt-name">Dr. Anjali Mehta</div><div class="appt-meta">Neurology · Chat · Pending Response</div></div>
+              <div class="appt-badge badge-amber">Awaiting</div>
+            </div>
+          </div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-header"><div class="dash-card-title">Recent Opinions</div></div>
+          <div class="dash-card-body">
+            <div class="appt-item">
+              <div class="appt-dot" style="background:#0C7A5D">✓</div>
+              <div class="appt-info"><div class="appt-name">Knee MRI Review</div><div class="appt-meta">Dr. Vikram Patel · Orthopedics · Dec 10</div></div>
+              <a class="action-link">Download PDF</a>
+            </div>
+            <div class="appt-item">
+              <div class="appt-dot" style="background:#185FA5">✓</div>
+              <div class="appt-info"><div class="appt-name">Blood Report Analysis</div><div class="appt-meta">Dr. Meera Singh · Internal Medicine · Nov 28</div></div>
+              <a class="action-link">View</a>
+            </div>
+            <div class="appt-item">
+              <div class="appt-dot" style="background:#0C7A5D">✓</div>
+              <div class="appt-info"><div class="appt-name">Chest CT Scan Review</div><div class="appt-meta">Dr. Priya Sharma · Oncology · Nov 5</div></div>
+              <a class="action-link">View</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="dash-card" style="margin-top:1.5rem">
+        <div class="dash-card-header"><div class="dash-card-title">AI Health Assistant Summary</div><div style="font-size:12px;color:var(--text3)">Auto-generated from your records</div></div>
+        <div class="dash-card-body">
+          <div style="background:var(--primary-light);border-left:3px solid var(--primary);border-radius:var(--radius-sm);padding:1rem 1.2rem;font-size:13px;color:var(--primary-dark);line-height:1.7">
+            <strong>Case Summary:</strong> Patient presents with left knee pain (chronic, 6 months) with mild meniscal tear confirmed on MRI. Currently on prescribed NSAIDs and physiotherapy. Second opinion recommended conservative management approach over surgical intervention. <em>Follow-up advised in 3 months.</em>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ============ SECOND OPINION FLOW ============ -->
+<div id="page-flow" class="page">
+  <div class="flow-container" id="flow-container">
+    <div style="text-align:center;margin-bottom:2rem">
+      <h2 class="serif" style="font-size:1.8rem;color:var(--text);letter-spacing:-0.5px">Get Your Second Opinion</h2>
+      <p style="color:var(--text2);font-size:14px;margin-top:.4rem">A guided 8-step process. Takes about 10 minutes.</p>
+    </div>
+    <div class="flow-progress" id="flow-progress"></div>
+    <div class="flow-card" id="flow-step-content"></div>
+  </div>
+</div>
+
+<!-- ============ DOCTOR SEARCH ============ -->
+<div id="page-search" class="page">
+  <div class="search-hero">
+    <h1 class="serif">Find Your Specialist</h1>
+    <div class="search-bar-wrap">
+      <input type="text" class="search-bar" placeholder="Search by name, specialty, condition…" id="search-input">
+      <button class="btn btn-primary btn-lg" onclick="doSearch()">Search</button>
+    </div>
+  </div>
+  <div class="filter-row">
+    <span style="font-size:13px;font-weight:500;color:var(--text2)">Filters:</span>
+    <select class="filter-select"><option>All Specialties</option><option>Oncology</option><option>Cardiology</option><option>Orthopedics</option><option>Neurology</option><option>Pediatrics</option></select>
+    <select class="filter-select"><option>All Cities</option><option>Mumbai</option><option>Delhi</option><option>Bengaluru</option><option>Pune</option><option>Chennai</option></select>
+    <select class="filter-select"><option>Consult Type</option><option>Online</option><option>In-Person</option><option>Both</option></select>
+    <select class="filter-select"><option>Experience</option><option>5+ years</option><option>10+ years</option><option>15+ years</option></select>
+    <select class="filter-select"><option>Language</option><option>English</option><option>Hindi</option><option>Marathi</option><option>Tamil</option></select>
+    <div class="active-filter">Oncology <span onclick="this.parentElement.remove()">✕</span></div>
+    <div class="active-filter">Online <span onclick="this.parentElement.remove()">✕</span></div>
+  </div>
+  <div style="max-width:1100px;margin:0 auto;padding:0 2rem;font-size:13px;color:var(--text2);margin-bottom:1rem">Showing 24 specialists matching your filters</div>
+  <div class="search-results" id="search-results"></div>
+</div>
+
+<!-- ============ DOCTOR PROFILE ============ -->
+<div id="page-doctor-profile" class="page">
+  <div class="profile-hero">
+    <div class="profile-inner">
+      <div class="profile-avatar" style="background:#0C7A5D">PS</div>
+      <div style="flex:1">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between">
+          <div>
+            <h1 style="font-size:1.8rem;font-weight:600;letter-spacing:-0.5px;color:var(--text)">Dr. Priya Sharma</h1>
+            <div class="profile-spec">Oncologist · Surgical Oncology</div>
+            <div style="font-size:13px;color:var(--text3);margin-bottom:.8rem">Tata Memorial Hospital, Mumbai · 16 years experience</div>
+            <div class="verified">✓ License Verified &nbsp;·&nbsp; ⭐ 4.9 (328 reviews)</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:12px;color:var(--text3);margin-bottom:.3rem">Second Opinion fee</div>
+            <div style="font-size:2rem;font-weight:700;color:var(--text);letter-spacing:-1px">₹2,499</div>
+            <button class="btn btn-primary btn-lg" style="margin-top:.8rem" onclick="showPage('flow')">Book Consultation</button>
+          </div>
+        </div>
+        <div class="profile-badges">
+          <div class="profile-badge">🏥 Tata Memorial</div>
+          <div class="profile-badge">🎓 MBBS, MD, MCh</div>
+          <div class="profile-badge">🌐 English, Hindi, Marathi</div>
+          <div class="profile-badge">📹 Online & In-Person</div>
+          <div class="profile-badge">⚡ Responds in 12h</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="profile-tabs">
+    <div class="tab active">About</div>
+    <div class="tab">Reviews (328)</div>
+    <div class="tab">Availability</div>
+    <div class="tab">Publications</div>
+  </div>
+  <div style="max-width:1100px;margin:2rem auto;padding:0 2rem;display:grid;grid-template-columns:2fr 1fr;gap:2rem">
+    <div>
+      <h3 style="font-size:16px;font-weight:600;margin-bottom:1rem;color:var(--text)">About Dr. Priya Sharma</h3>
+      <p style="font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:1.5rem">Dr. Priya Sharma is a senior surgical oncologist with over 16 years of experience specializing in breast cancer, head & neck tumours, and gastrointestinal malignancies. She is a pioneer of minimally invasive oncological surgery in India and has performed over 3,000 surgeries at Tata Memorial Hospital, one of Asia's foremost cancer centres.</p>
+      <h4 style="font-size:14px;font-weight:600;margin-bottom:.8rem;color:var(--text)">Education & Training</h4>
+      <div style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.5rem">
+        <div style="display:flex;gap:1rem;font-size:13px"><span style="color:var(--accent);font-weight:500;min-width:80px">2008</span><span style="color:var(--text2)">MCh Surgical Oncology · Tata Memorial Hospital, Mumbai</span></div>
+        <div style="display:flex;gap:1rem;font-size:13px"><span style="color:var(--accent);font-weight:500;min-width:80px">2004</span><span style="color:var(--text2)">MD General Surgery · AIIMS, New Delhi</span></div>
+        <div style="display:flex;gap:1rem;font-size:13px"><span style="color:var(--accent);font-weight:500;min-width:80px">1999</span><span style="color:var(--text2)">MBBS · Grant Medical College, Mumbai</span></div>
+      </div>
+      <h4 style="font-size:14px;font-weight:600;margin-bottom:.8rem;color:var(--text)">Specializations</h4>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="tag">Breast Cancer</span><span class="tag">Surgical Oncology</span><span class="tag">Head & Neck Tumours</span><span class="tag">GI Malignancies</span><span class="tag">Laparoscopic Surgery</span><span class="tag">Robotic Surgery</span>
+      </div>
+    </div>
+    <div>
+      <div class="dash-card">
+        <div class="dash-card-header"><div class="dash-card-title">Quick Stats</div></div>
+        <div class="dash-card-body">
+          <div style="display:flex;flex-direction:column;gap:.8rem">
+            <div class="confirm-row"><span>Experience</span><strong>16 years</strong></div>
+            <div class="confirm-row"><span>Cases reviewed</span><strong>3,200+</strong></div>
+            <div class="confirm-row"><span>Second opinions</span><strong>890+</strong></div>
+            <div class="confirm-row"><span>Avg. response</span><strong>12 hours</strong></div>
+            <div class="confirm-row"><span>Patient rating</span><strong>⭐ 4.9/5</strong></div>
+          </div>
+        </div>
+      </div>
+      <div class="dash-card" style="margin-top:1rem">
+        <div class="dash-card-header"><div class="dash-card-title">Next Available</div></div>
+        <div class="dash-card-body">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div class="slot-btn selected">Today 4 PM</div>
+            <div class="slot-btn">Tomorrow 10 AM</div>
+            <div class="slot-btn">Dec 27 2 PM</div>
+            <div class="slot-btn">Dec 28 11 AM</div>
+          </div>
+          <button class="btn btn-primary" style="width:100%;margin-top:1rem" onclick="showPage('flow')">Book Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ VIDEO CONSULTATION ============ -->
+<div id="page-video" class="page">
+  <div class="video-room">
+    <div class="video-main">
+      <div class="video-stage">
+        <div class="remote-video">
+          <div class="remote-placeholder">
+            <div class="remote-avatar">PS</div>
+            <div class="remote-name">Dr. Priya Sharma</div>
+            <div class="remote-status">🟢 Connected · 00:12:43</div>
+          </div>
+        </div>
+        <div class="self-video"><div class="self-placeholder">A</div></div>
+        <div style="position:absolute;top:1rem;left:1rem;background:rgba(0,0,0,.5);border-radius:8px;padding:.5rem .8rem;color:white;font-size:12px">🔴 Recording · Encrypted</div>
+      </div>
+      <div class="chat-panel">
+        <div class="chat-header">💬 Chat</div>
+        <div class="chat-msgs" id="vid-chat-msgs">
+          <div class="chat-msg"><div class="chat-msg-sender" style="color:rgba(255,255,255,.5)">Dr. Priya Sharma</div><div class="chat-msg-text">Hello Arjun, I have reviewed your MRI scans. Let me share my findings.</div></div>
+          <div class="chat-msg own"><div class="chat-msg-sender" style="color:rgba(255,255,255,.5);text-align:right">You</div><div class="chat-msg-text">Thank you Doctor. I'm a bit worried about the results.</div></div>
+          <div class="chat-msg"><div class="chat-msg-sender" style="color:rgba(255,255,255,.5)">Dr. Priya Sharma</div><div class="chat-msg-text">Completely understandable. Let me explain what I see. The meniscal tear is Grade 2, which means conservative management is preferred.</div></div>
+        </div>
+        <div class="chat-input-row">
+          <input class="chat-input" placeholder="Type a message…" id="vid-chat-input">
+          <button class="chat-send" onclick="sendVidChat()">➤</button>
+        </div>
+      </div>
+    </div>
+    <div class="video-controls">
+      <button class="vid-btn vid-btn-normal" title="Mute">🎙️</button>
+      <button class="vid-btn vid-btn-normal" title="Camera">📷</button>
+      <button class="vid-btn vid-btn-normal" title="Share screen">🖥️</button>
+      <button class="vid-btn vid-btn-normal" title="Chat">💬</button>
+      <button class="vid-btn vid-btn-end" onclick="showPage('dashboard')" title="End call">📵</button>
+      <button class="vid-btn vid-btn-normal" title="Download notes">📋</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ADMIN PANEL ============ -->
+<div id="page-admin" class="page">
+  <div style="background:white;border-bottom:1px solid var(--border);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between">
+    <div style="font-size:16px;font-weight:600;color:var(--text)">⚙️ Admin Panel</div>
+    <div style="display:flex;gap:1rem">
+      <button class="btn btn-ghost" onclick="showPage('landing')">← Back to site</button>
+      <button class="btn btn-primary">Export Report</button>
+    </div>
+  </div>
+  <div style="padding:2rem;max-width:1200px;margin:0 auto">
+    <div class="admin-stats">
+      <div class="admin-stat"><div class="stat-card-num" style="font-size:1.6rem">1,247</div><div style="font-size:12px;color:var(--text2);margin-top:4px">Total Patients</div></div>
+      <div class="admin-stat"><div class="stat-card-num" style="font-size:1.6rem">248</div><div style="font-size:12px;color:var(--text2);margin-top:4px">Active Doctors</div></div>
+      <div class="admin-stat"><div class="stat-card-num" style="font-size:1.6rem">3,891</div><div style="font-size:12px;color:var(--text2);margin-top:4px">Appointments</div></div>
+      <div class="admin-stat"><div class="stat-card-num" style="font-size:1.6rem">₹28.4L</div><div style="font-size:12px;color:var(--text2);margin-top:4px">Revenue (Month)</div></div>
+      <div class="admin-stat"><div class="stat-card-num" style="font-size:1.6rem">12</div><div style="font-size:12px;color:red;margin-top:4px">Pending Approvals</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem">
+      <div>
+        <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:1rem">Doctor Approval Queue</div>
+        <div class="admin-table">
+          <table><thead><tr><th>Doctor</th><th>Specialty</th><th>Applied</th><th>Action</th></tr></thead><tbody>
+            <tr><td><strong>Dr. Karan Mehra</strong><br><span style="font-size:11px">MBBS, MD – AIIMS</span></td><td>Cardiology</td><td>Dec 22</td><td><span class="action-link">Approve</span> &nbsp; <span class="action-link red">Reject</span></td></tr>
+            <tr><td><strong>Dr. Sunita Rao</strong><br><span style="font-size:11px">MCh – Manipal</span></td><td>Neurology</td><td>Dec 21</td><td><span class="action-link">Approve</span> &nbsp; <span class="action-link red">Reject</span></td></tr>
+            <tr><td><strong>Dr. Amit Bose</strong><br><span style="font-size:11px">DM – PGIMER</span></td><td>Gastro</td><td>Dec 20</td><td><span class="action-link">Approve</span> &nbsp; <span class="action-link red">Reject</span></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:1rem">Recent Transactions</div>
+        <div class="admin-table">
+          <table><thead><tr><th>Patient</th><th>Doctor</th><th>Amount</th><th>Status</th></tr></thead><tbody>
+            <tr><td>Arjun Sharma</td><td>Dr. P. Sharma</td><td>₹2,499</td><td><span class="appt-badge badge-green">Paid</span></td></tr>
+            <tr><td>Kavya Reddy</td><td>Dr. R. Kumar</td><td>₹1,999</td><td><span class="appt-badge badge-green">Paid</span></td></tr>
+            <tr><td>Sanjay Patel</td><td>Dr. A. Mehta</td><td>₹3,499</td><td><span class="appt-badge badge-amber">Pending</span></td></tr>
+            <tr><td>Deepa Iyer</td><td>Dr. V. Patel</td><td>₹1,299</td><td><span class="appt-badge badge-red">Refunded</span></td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:1rem">User Management</div>
+      <div class="admin-table">
+        <table><thead><tr><th>Name</th><th>Email</th><th>Type</th><th>Joined</th><th>Status</th><th>Action</th></tr></thead><tbody>
+          <tr><td>Arjun Sharma</td><td>arjun@email.com</td><td>Patient</td><td>Oct 12, 2025</td><td><span class="appt-badge badge-green">Active</span></td><td><span class="action-link">View</span></td></tr>
+          <tr><td>Dr. Priya Sharma</td><td>priya@doctor.com</td><td>Doctor</td><td>Aug 5, 2025</td><td><span class="appt-badge badge-green">Verified</span></td><td><span class="action-link">View</span></td></tr>
+          <tr><td>Kavya Reddy</td><td>kavya@email.com</td><td>Patient</td><td>Nov 18, 2025</td><td><span class="appt-badge badge-amber">Pending OTP</span></td><td><span class="action-link">View</span></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ DOCTOR ONBOARDING ============ -->
+<div id="page-doctor-onboard" class="page">
+  <div style="max-width:700px;margin:0 auto;padding:3rem 2rem">
+    <div style="text-align:center;margin-bottom:2.5rem">
+      <h1 class="serif" style="font-size:2rem;color:var(--text);letter-spacing:-.5px">Apply to Join Our Network</h1>
+      <p style="color:var(--text2);font-size:14px;margin-top:.5rem">Reviewed within 48 hours. No fee to apply.</p>
+    </div>
+    <div class="flow-card">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">First Name</label><input type="text" placeholder="Priya"></div>
+        <div class="form-group"><label class="form-label">Last Name</label><input type="text" placeholder="Sharma"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Email Address</label><input type="email" placeholder="priya@hospital.com"></div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Specialization</label><select><option>Select specialty…</option><option>Oncology</option><option>Cardiology</option><option>Orthopedics</option><option>Neurology</option><option>Pediatrics</option></select></div>
+        <div class="form-group"><label class="form-label">Years of Experience</label><select><option>Select…</option><option>1-5 years</option><option>5-10 years</option><option>10-15 years</option><option>15+ years</option></select></div>
+      </div>
+      <div class="form-group"><label class="form-label">Medical License Number</label><input type="text" placeholder="MCI/SMC-XXXXXX"></div>
+      <div class="form-group"><label class="form-label">Hospital / Clinic Affiliation</label><input type="text" placeholder="Tata Memorial Hospital, Mumbai"></div>
+      <div class="form-group"><label class="form-label">Upload Credentials (PDF/Image)</label>
+        <div class="upload-zone" style="padding:1.5rem">
+          <div style="font-size:1.5rem">📎</div>
+          <div style="font-size:13px;color:var(--text2);margin-top:.5rem">Click to upload degree certificates, license, ID</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:.3rem">PDF, JPG, PNG · Max 10MB per file</div>
+        </div>
+      </div>
+      <div class="form-group"><label class="form-label">Brief Bio</label><textarea class="flow-input" placeholder="Tell patients about your expertise, approach, and specializations…" rows="4"></textarea></div>
+      <button class="btn btn-primary btn-xl" style="width:100%;justify-content:center" onclick="alert('Application submitted! Our team will review within 48 hours.')">Submit Application</button>
+    </div>
+  </div>
+</div>
+
+<!-- AI ASSISTANT FAB -->
+<button class="fab" onclick="toggleAI()" title="AI Health Assistant">🤖</button>
+
+<!-- AI MODAL -->
+<div class="modal-overlay hidden" id="ai-modal">
+  <div class="ai-panel">
+    <div class="ai-header">
+      <div style="width:32px;height:32px;background:rgba(255,255,255,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px">🤖</div>
+      <div><div class="ai-header-text">AI Health Assistant</div><div class="ai-header-sub">Powered by SecondOpinion AI</div></div>
+      <button onclick="toggleAI()" style="margin-left:auto;background:none;border:none;color:white;font-size:18px;cursor:pointer">✕</button>
+    </div>
+    <div class="ai-messages" id="ai-msgs">
+      <div class="ai-msg bot">👋 Hello! I'm your AI health assistant. I can help you summarize symptoms, understand your reports, and find the right specialist. What brings you here today?</div>
+    </div>
+    <div class="ai-suggestions">
+      <div class="ai-sugg" onclick="sendAI(this.textContent)">I have a new diagnosis</div>
+      <div class="ai-sugg" onclick="sendAI(this.textContent)">Explain my blood report</div>
+      <div class="ai-sugg" onclick="sendAI(this.textContent)">Find me a specialist</div>
+      <div class="ai-sugg" onclick="sendAI(this.textContent)">Is surgery necessary?</div>
+    </div>
+    <div class="ai-input-row">
+      <input class="ai-input" id="ai-input" placeholder="Describe your concern…" onkeydown="if(event.key==='Enter')sendAIInput()">
+      <button class="ai-send" onclick="sendAIInput()">➤</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== DATA =====
+const doctors = [
+  {initials:'PS',bg:'#0C7A5D',name:'Dr. Priya Sharma',spec:'Oncologist',sub:'Surgical Oncology',hospital:'Tata Memorial, Mumbai',exp:'16 yrs',rating:'4.9',reviews:328,fee:'₹2,499',avail:'Today 4 PM',online:true},
+  {initials:'RK',bg:'#185FA5',name:'Dr. Rajesh Kumar',spec:'Cardiologist',sub:'Interventional Cardiology',hospital:'AIIMS, Delhi',exp:'22 yrs',rating:'4.8',reviews:512,fee:'₹1,999',avail:'Tomorrow 10 AM',online:true},
+  {initials:'AM',bg:'#7c3aed',name:'Dr. Anjali Mehta',spec:'Neurologist',sub:'Clinical Neurology',hospital:'Narayana Health, Bengaluru',exp:'14 yrs',rating:'4.9',reviews:201,fee:'₹2,299',avail:'Dec 27 2 PM',online:true},
+  {initials:'VP',bg:'#0e7490',name:'Dr. Vikram Patel',spec:'Orthopaedic Surgeon',sub:'Joint Replacement',hospital:'Kokilaben Hospital, Mumbai',exp:'18 yrs',rating:'4.7',reviews:389,fee:'₹3,499',avail:'Today 6 PM',online:false},
+  {initials:'MS',bg:'#be185d',name:'Dr. Meera Singh',spec:'Pediatrician',sub:'Paediatric Neurology',hospital:'Hinduja Hospital, Mumbai',exp:'12 yrs',rating:'4.9',reviews:154,fee:'₹1,499',avail:'Tomorrow 2 PM',online:true},
+  {initials:'SR',bg:'#b45309',name:'Dr. Sanjay Rao',spec:'Gastroenterologist',sub:'Hepatology',hospital:'Manipal Hospitals, Bangalore',exp:'20 yrs',rating:'4.8',reviews:267,fee:'₹2,799',avail:'Dec 28',online:true},
+];
+
+const faqs = [
+  {q:'How is SecondOpinion Connect different from a regular online consultation?',a:'A second opinion is a structured review of your existing diagnosis, reports, and treatment plan by a specialist who was not involved in your original care. It is not a new consultation — it is a critical verification of the advice you have already received.'},
+  {q:'How do I know the doctors are qualified?',a:'Every doctor on our platform undergoes a rigorous 5-step verification: medical license check, degree authentication, peer references, background check, and ongoing review tracking. You can view verification badges on every profile.'},
+  {q:'How long does a written second opinion take?',a:'Most written second opinions are delivered within 24-48 hours. For emergency priority cases, we offer a 6-hour turnaround with our premium option.'},
+  {q:'Is my medical data safe?',a:'Absolutely. All data is encrypted end-to-end using AES-256 encryption. Reports are stored in an ISO 27001 compliant environment. We never share your data with third parties without explicit consent.'},
+  {q:'What if I want a refund?',a:'If a doctor does not respond within the promised time or you are unsatisfied with the review, we offer a full refund within 7 business days. Our patient satisfaction guarantee is core to our mission.'},
+];
+
+// Flow data
+const flowSteps = [
+  {label:'Category',icon:'🏷️'},
+  {label:'Describe',icon:'📝'},
+  {label:'Upload',icon:'📁'},
+  {label:'Consult Type',icon:'💬'},
+  {label:'Doctor',icon:'👨‍⚕️'},
+  {label:'Schedule',icon:'📅'},
+  {label:'Payment',icon:'💳'},
+  {label:'Confirm',icon:'✅'},
+];
+let currentStep = 0;
+let flowData = {category:'',consult:'',doctor:'',date:'',slot:'',payment:'Razorpay'};
+
+const categories = [
+  {icon:'🔬',label:'Cancer/Oncology'},{icon:'❤️',label:'Cardiology'},
+  {icon:'🦴',label:'Orthopedics'},{icon:'🧠',label:'Neurology'},
+  {icon:'👶',label:'Pediatrics'},{icon:'🍀',label:'Fertility'},
+  {icon:'🔪',label:'General Surgery'},{icon:'🧘',label:'Mental Health'},
+  {icon:'⋯',label:'Others'},
+];
+
+// Calendar
+function generateCalendar(){
+  const days=['Su','Mo','Tu','We','Th','Fr','Sa'];
+  let html=days.map(d=>`<div class="cal-day header">${d}</div>`).join('');
+  const start=3;// start offset
+  for(let i=0;i<start;i++) html+=`<div class="cal-day empty"></div>`;
+  for(let i=1;i<=31;i++){
+    const isPast=i<25,isSel=flowData.date===i;
+    html+=`<div class="cal-day ${isPast?'disabled':isSel?'selected':'available'}" onclick="${isPast?'':'setDate('+i+')'}">` +i+`</div>`;
+  }
+  return html;
+}
+
+function setDate(d){flowData.date=d;renderStep();}
+function setSlot(s){flowData.slot=s;renderStep();}
+
+const slots=['9:00 AM','10:00 AM','11:30 AM','12:00 PM','2:00 PM','3:30 PM','4:00 PM','5:00 PM'];
+
+function renderProgress(){
+  const el=document.getElementById('flow-progress');
+  if(!el)return;
+  let html='';
+  flowSteps.forEach((s,i)=>{
+    const state=i<currentStep?'done':i===currentStep?'active':'';
+    html+=`<div class="flow-step ${state}"><div class="flow-step-dot">${i<currentStep?'✓':(i+1)}</div><div class="flow-step-label">${s.label}</div></div>`;
+    if(i<flowSteps.length-1) html+=`<div class="flow-connector ${i<currentStep?'done':''}"></div>`;
+  });
+  el.innerHTML=html;
+}
+
+function renderStep(){
+  renderProgress();
+  const el=document.getElementById('flow-step-content');
+  if(!el)return;
+  const nav=(back,fwd,fwdLabel='Continue →')=>`
+    <div class="flow-nav">
+      ${back?`<button class="btn btn-ghost" onclick="prevStep()">← Back</button>`:`<div></div>`}
+      <button class="btn btn-primary btn-lg" onclick="nextStep()">${fwdLabel}</button>
+    </div>`;
+
+  if(currentStep===0){
+    el.innerHTML=`
+      <div class="flow-title">What is your concern?</div>
+      <div class="flow-sub">Select the medical specialty closest to your diagnosis or condition.</div>
+      <div class="category-grid">${categories.map(c=>`
+        <div class="category-btn ${flowData.category===c.label?'selected':''}" onclick="flowData.category='${c.label}';renderStep()">
+          <div class="category-icon">${c.icon}</div>
+          <div class="category-label">${c.label}</div>
+        </div>`).join('')}
+      </div>
+      ${nav(false,true)}`;
+  } else if(currentStep===1){
+    el.innerHTML=`
+      <div class="flow-title">Describe your diagnosis</div>
+      <div class="flow-sub">Tell us about the diagnosis you received, your symptoms, and any concerns you have. Be as detailed as possible.</div>
+      <textarea class="flow-input" placeholder="e.g. My oncologist diagnosed me with Stage 2 breast cancer in October. I received a biopsy and two MRI scans. I have been advised to undergo surgery but I want an expert second opinion before proceeding…" rows="6"></textarea>
+      <div style="margin-top:1rem;padding:1rem;background:var(--primary-light);border-radius:var(--radius-sm);font-size:13px;color:var(--primary-dark)">
+        💡 <strong>Tip:</strong> Include your diagnosis date, the doctor who diagnosed you, and the proposed treatment plan.
+      </div>
+      ${nav(true,true)}`;
+  } else if(currentStep===2){
+    el.innerHTML=`
+      <div class="flow-title">Upload your medical records</div>
+      <div class="flow-sub">Attach any reports, scans, prescriptions, or test results relevant to your case.</div>
+      <div class="upload-zone" onclick="alert('File picker would open')">
+        <div class="upload-icon">📂</div>
+        <div class="upload-text">Click to upload or drag & drop files here</div>
+        <div class="upload-hint">Encrypted upload — your files are secure</div>
+        <div class="upload-types"><span class="type-tag">PDF</span><span class="type-tag">JPG/PNG</span><span class="type-tag">DICOM</span><span class="type-tag">MP4</span></div>
+      </div>
+      <div style="margin-top:1rem;display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;gap:10px;background:var(--bg3);border-radius:var(--radius-sm);padding:.7rem 1rem;font-size:13px">
+          <span>📄</span><span style="flex:1;color:var(--text)">MRI_Scan_Left_Knee_Dec2025.pdf</span><span style="color:var(--accent)">✓ Uploaded</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;background:var(--bg3);border-radius:var(--radius-sm);padding:.7rem 1rem;font-size:13px">
+          <span>📋</span><span style="flex:1;color:var(--text)">Blood_Report_Nov2025.pdf</span><span style="color:var(--accent)">✓ Uploaded</span>
+        </div>
+      </div>
+      ${nav(true,true)}`;
+  } else if(currentStep===3){
+    const opts=[
+      {icon:'📹',title:'Video Consultation',desc:'Face-to-face video call with your specialist. Most recommended for complex cases.',id:'video'},
+      {icon:'🎙️',title:'Audio Call',desc:'Phone consultation for detailed verbal discussion of your case.',id:'audio'},
+      {icon:'💬',title:'Chat Consultation',desc:'Asynchronous text-based review. Doctor responds within 24 hours.',id:'chat'},
+      {icon:'🏥',title:'In-Person Visit',desc:'Visit the specialist\'s clinic for a physical examination and review.',id:'inperson'},
+    ];
+    el.innerHTML=`
+      <div class="flow-title">Choose consultation type</div>
+      <div class="flow-sub">How would you like to consult with your specialist?</div>
+      <div class="consult-options">${opts.map(o=>`
+        <div class="consult-opt ${flowData.consult===o.id?'selected':''}" onclick="flowData.consult='${o.id}';renderStep()">
+          <div class="consult-opt-icon">${o.icon}</div>
+          <div class="consult-opt-title">${o.title}</div>
+          <div class="consult-opt-desc">${o.desc}</div>
+        </div>`).join('')}
+      </div>
+      ${nav(true,true)}`;
+  } else if(currentStep===4){
+    el.innerHTML=`
+      <div class="flow-title">Select your specialist</div>
+      <div class="flow-sub">Based on your case (${flowData.category||'General'}), we recommend these verified specialists.</div>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:1rem">
+        ${doctors.slice(0,3).map((d,i)=>`
+          <div style="display:flex;gap:1rem;padding:1.2rem;border-radius:var(--radius);border:2px solid ${flowData.doctor===d.name?'var(--primary)':'var(--border)'};background:${flowData.doctor===d.name?'var(--primary-light)':'white'};cursor:pointer;transition:all .2s" onclick="flowData.doctor='${d.name}';renderStep()">
+            <div style="width:48px;height:48px;border-radius:12px;background:${d.bg};display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;color:white;flex-shrink:0">${d.initials}</div>
+            <div style="flex:1">
+              <div style="font-size:15px;font-weight:600;color:var(--text)">${d.name}</div>
+              <div style="font-size:13px;color:var(--accent);font-weight:500">${d.spec} · ${d.exp}</div>
+              <div style="font-size:12px;color:var(--text3)">${d.hospital}</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0">
+              <div style="font-size:15px;font-weight:600;color:var(--text)">${d.fee}</div>
+              <div style="font-size:12px;color:var(--accent);margin-top:4px">⭐ ${d.rating}</div>
+              ${flowData.doctor===d.name?'<div style="font-size:11px;margin-top:4px;color:var(--primary-dark);font-weight:600">✓ Selected</div>':''}
+            </div>
+          </div>`).join('')}
+        <div style="text-align:center;font-size:13px;color:var(--accent);cursor:pointer" onclick="showPage('search')">+ View all specialists →</div>
+      </div>
+      ${nav(true,true)}`;
+  } else if(currentStep===5){
+    el.innerHTML=`
+      <div class="flow-title">Choose your date & time</div>
+      <div class="flow-sub">Pick a slot that works for you. All times are in your local timezone (IST).</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+        <button class="btn btn-ghost" style="padding:6px 12px;font-size:13px">◀ Nov</button>
+        <div style="font-size:15px;font-weight:600;color:var(--text)">December 2025</div>
+        <button class="btn btn-ghost" style="padding:6px 12px;font-size:13px">Jan ▶</button>
+      </div>
+      <div class="calendar-grid" id="cal-grid">${generateCalendar()}</div>
+      ${flowData.date?`
+        <div style="font-size:14px;font-weight:500;color:var(--text);margin-bottom:.8rem">Available slots for Dec ${flowData.date}:</div>
+        <div class="slots-grid">${slots.map((s,i)=>`<div class="slot-btn ${flowData.slot===s?'selected':''} ${i===2||i===5?'full':''}" onclick="${i===2||i===5?'':'setSlot(`'+s+'`)'}">${s}${i===2||i===5?' (Full)':''}</div>`).join('')}</div>`:'<div style="text-align:center;padding:1rem;color:var(--text2);font-size:14px">👆 Select a date to see available slots</div>'}
+      ${nav(true,true)}`;
+  } else if(currentStep===6){
+    el.innerHTML=`
+      <div class="flow-title">Secure payment</div>
+      <div class="flow-sub">Review your booking and complete payment. Your data is encrypted and secure.</div>
+      <div class="confirm-box">
+        <div class="confirm-row"><span>Doctor</span><span>${flowData.doctor||'Dr. Priya Sharma'}</span></div>
+        <div class="confirm-row"><span>Consultation type</span><span>${flowData.consult?flowData.consult.charAt(0).toUpperCase()+flowData.consult.slice(1):'Video Call'}</span></div>
+        <div class="confirm-row"><span>Date & time</span><span>${flowData.date?'Dec '+flowData.date+', 2025':'Dec 27, 2025'} ${flowData.slot||'10:00 AM'}</span></div>
+        <div class="confirm-row"><span>Consultation fee</span><span>₹2,499</span></div>
+        <div class="confirm-row"><span>Platform fee</span><span>₹0</span></div>
+        <div class="confirm-row"><span>Total</span><span>₹2,499</span></div>
+      </div>
+      <div style="margin-bottom:1rem">
+        <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:.8rem">Pay via:</div>
+        <div style="display:flex;gap:10px">
+          ${['Razorpay','Stripe','UPI'].map(p=>`<div style="flex:1;border:2px solid ${flowData.payment===p?'var(--primary)':'var(--border)'};border-radius:var(--radius-sm);padding:.8rem;text-align:center;cursor:pointer;font-size:13px;font-weight:500;color:var(--text2);transition:all .2s" onclick="flowData.payment='${p}';renderStep()">${p}</div>`).join('')}
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:6px;margin-bottom:1rem">🔒 256-bit SSL encryption · PCI DSS compliant · Instant e-receipt</div>
+      ${nav(true,false,'Pay ₹2,499 →')}`;
+  } else if(currentStep===7){
+    el.innerHTML=`
+      <div class="success-screen">
+        <div class="success-icon">🎉</div>
+        <div class="success-title">Booking Confirmed!</div>
+        <div class="success-sub">Your appointment with <strong>${flowData.doctor||'Dr. Priya Sharma'}</strong> has been confirmed. You will receive a confirmation email and calendar invite shortly.</div>
+        <div class="booking-ref">SOC-2025-48291</div>
+        <div style="display:flex;gap:12px;justify-content:center;margin-top:2rem">
+          <button class="btn btn-outline btn-lg" onclick="showPage('dashboard')">View Dashboard</button>
+          <button class="btn btn-primary btn-lg" onclick="showPage('video')">Join Consultation</button>
+        </div>
+      </div>`;
+  }
+}
+
+function nextStep(){
+  if(currentStep<flowSteps.length-1){currentStep++;renderStep();}
+}
+function prevStep(){
+  if(currentStep>0){currentStep--;renderStep();}
+}
+
+// ===== PAGES =====
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const p=document.getElementById('page-'+name);
+  if(p){p.classList.add('active');window.scrollTo(0,0);}
+  if(name==='flow'){currentStep=0;flowData={category:'',consult:'',doctor:'',date:'',slot:'',payment:'Razorpay'};renderStep();}
+  if(name==='search')renderSearchResults(doctors);
+  if(name==='landing')renderFeaturedDoctors();
+}
+
+function renderDoctorCard(d,clickable=true){
+  return `<div class="doctor-card" onclick="${clickable?'showPage(\'doctor-profile\')':''}">
+    <div class="doctor-header">
+      <div class="doctor-avatar" style="background:${d.bg}">${d.initials}</div>
+      <div>
+        <div class="doctor-name">${d.name}</div>
+        <div class="doctor-spec">${d.spec}</div>
+        <div class="doctor-hospital">${d.hospital}</div>
+      </div>
+    </div>
+    <div class="doctor-body">
+      <div class="doctor-meta">
+        <div class="meta-chip"><span class="stars">★</span> ${d.rating} (${d.reviews})</div>
+        <div class="meta-chip">🕐 ${d.exp}</div>
+        ${d.online?'<div class="meta-chip">📹 Online</div>':'<div class="meta-chip">🏥 In-person</div>'}
+      </div>
+      <div class="price-row">
+        <div class="price">${d.fee} <span>/ opinion</span></div>
+        <div class="avail-badge">${d.avail}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderFeaturedDoctors(){
+  const el=document.getElementById('featured-doctors');
+  if(el) el.innerHTML=doctors.slice(0,3).map(d=>renderDoctorCard(d)).join('');
+}
+
+function renderSearchResults(list){
+  const el=document.getElementById('search-results');
+  if(el) el.innerHTML=list.map(d=>renderDoctorCard(d)).join('');
+}
+
+function doSearch(){
+  const q=(document.getElementById('search-input')||{}).value||'';
+  const filtered=q?doctors.filter(d=>d.name.toLowerCase().includes(q.toLowerCase())||d.spec.toLowerCase().includes(q.toLowerCase())):doctors;
+  renderSearchResults(filtered);
+}
+
+// FAQ
+function renderFAQ(){
+  const el=document.getElementById('faq-list');
+  if(!el)return;
+  el.innerHTML=faqs.map((f,i)=>`
+    <div class="faq-item">
+      <div class="faq-q" id="faq-q-${i}" onclick="toggleFAQ(${i})">
+        <span>${f.q}</span><span class="arrow">▾</span>
+      </div>
+      <div class="faq-a" id="faq-a-${i}">${f.a}</div>
+    </div>`).join('');
+}
+
+function toggleFAQ(i){
+  const q=document.getElementById('faq-q-'+i);
+  const a=document.getElementById('faq-a-'+i);
+  q.classList.toggle('open');
+  a.classList.toggle('open');
+}
+
+// AI
+const aiReplies={
+  'i have a new diagnosis':'I understand receiving a new diagnosis can be overwhelming. Let me help you structure your case for a second opinion. First — can you tell me the specialty? (e.g. oncology, cardiology). Then we can match you with the right expert.',
+  'explain my blood report':'I can help analyse blood reports. Please upload your PDF and I will extract key markers, flag anomalies, and prepare a structured summary for the reviewing specialist.',
+  'find me a specialist':'Based on what you have shared, I recommend a specialist in that area. You can browse our verified specialists or let me auto-match you — I will pick the 3 best fits for your case profile.',
+  'is surgery necessary':'That is exactly the right question to ask. In many cases, second opinions have led to non-surgical alternatives being identified. Upload your surgical recommendation letter and scans and we will get a review within 24 hours.',
+};
+
+let aiHistory=[{role:'bot',text:'👋 Hello! I\'m your AI health assistant. I can help you summarize symptoms, understand your reports, and find the right specialist. What brings you here today?'}];
+
+function renderAIMessages(){
+  const el=document.getElementById('ai-msgs');
+  if(!el)return;
+  el.innerHTML=aiHistory.map(m=>`<div class="ai-msg ${m.role==='bot'?'bot':'user'}">${m.text}</div>`).join('');
+  el.scrollTop=el.scrollHeight;
+}
+
+function sendAI(text){
+  aiHistory.push({role:'user',text});
+  const reply=aiReplies[text.toLowerCase()]||"Thank you for sharing that. Based on what you have described, I recommend uploading any existing reports and booking a consultation with one of our verified specialists. Can I help you with that?";
+  setTimeout(()=>{aiHistory.push({role:'bot',text:reply});renderAIMessages();},800);
+  renderAIMessages();
+}
+
+function sendAIInput(){
+  const inp=document.getElementById('ai-input');
+  if(!inp||!inp.value.trim())return;
+  sendAI(inp.value.trim());
+  inp.value='';
+}
+
+function toggleAI(){
+  const m=document.getElementById('ai-modal');
+  m.classList.toggle('hidden');
+}
+
+// Video chat
+function sendVidChat(){
+  const inp=document.getElementById('vid-chat-input');
+  if(!inp||!inp.value.trim())return;
+  const msgs=document.getElementById('vid-chat-msgs');
+  msgs.innerHTML+=`<div class="chat-msg own"><div class="chat-msg-sender" style="color:rgba(255,255,255,.5);text-align:right">You</div><div class="chat-msg-text">${inp.value}</div></div>`;
+  msgs.scrollTop=msgs.scrollHeight;
+  inp.value='';
+  setTimeout(()=>{
+    msgs.innerHTML+=`<div class="chat-msg"><div class="chat-msg-sender" style="color:rgba(255,255,255,.5)">Dr. Priya Sharma</div><div class="chat-msg-text">Yes, I understand. I will include that in my written opinion that you will receive after this call.</div></div>`;
+    msgs.scrollTop=msgs.scrollHeight;
+  },1200);
+}
+
+// Init
+renderFeaturedDoctors();
+renderFAQ();
+</script>
+</body>
+</html>
